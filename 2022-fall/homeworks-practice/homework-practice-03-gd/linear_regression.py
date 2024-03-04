@@ -34,11 +34,17 @@ class LinearRegression:
         :return: self
         """
         self.loss_history.append(self.calc_loss(x, y))
-        for _ in range(self.max_iter):
+        for i in range(self.max_iter):
             w_diff = self.descent.step(x, y)
             self.loss_history.append(self.calc_loss(x, y))
             if np.linalg.norm(w_diff)**2 < self.tolerance or np.isnan(w_diff).any():
+                if (np.linalg.norm(w_diff)**2 < self.tolerance):
+                    print("Reason stop is np.linalg.norm")
+                else:
+                    print("Reason stop is np.isnan")
                 break
+        if i == self.max_iter - 1:
+            print("Reason stop is max_iter")
         return self
 
     def predict(self, x: np.ndarray) -> np.ndarray:
