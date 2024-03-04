@@ -33,8 +33,13 @@ class LinearRegression:
         :param y: targets array
         :return: self
         """
-        # TODO: fit weights to x and y
-        raise NotImplementedError('LinearRegression fit function not implemented')
+        self.loss_history.append(self.calc_loss(x, y))
+        for _ in range(self.max_iter):
+            w_diff = self.descent.step(x, y)
+            self.loss_history.append(self.calc_loss(x, y))
+            if np.linalg.norm(w_diff)**2 < self.tolerance or np.isnan(w_diff).any():
+                break
+        return self
 
     def predict(self, x: np.ndarray) -> np.ndarray:
         """
